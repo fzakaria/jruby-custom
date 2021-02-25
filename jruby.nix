@@ -52,6 +52,10 @@ in stdenv.mkDerivation rec {
     echo "Using repository ${maven-repository}"
     # We make sure to avoid installation since the maven repository is read-only now
     mvn -Dmaven.install.skip=true -Pdist --offline -Dmaven.repo.local=${maven-repository}
+
+    mkdir ./dist
+    tar -xzvf ./maven/jruby-dist/target/jruby-dist-*-bin.tar.gz -C ./dist
+    cd ./dist
   '';
 
   installPhase = ''
