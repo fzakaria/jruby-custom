@@ -50,8 +50,8 @@ in stdenv.mkDerivation rec {
 
   buildPhase = ''
     echo "Using repository ${maven-repository}"
-    # 'maven.repo.local' must be writable so copy it out of nix store
-    mvn -Pdist --offline -Dmaven.repo.local=${maven-repository}
+    # We make sure to avoid installation since the maven repository is read-only now
+    mvn -Dmaven.install.skip=true -Pdist --offline -Dmaven.repo.local=${maven-repository}
   '';
 
   installPhase = ''
