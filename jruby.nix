@@ -37,7 +37,7 @@ let
 
     outputHashAlgo = "sha256";
     outputHashMode = "recursive";
-    outputHash = "07dim5xccbhg3r0abpv5xrd2xnkc5qciwvfc9sxpbj0wxgjdj69b";
+    outputHash = "1w4v0xfx3c5f1rn1gq28kk40j30fi3d9d5m15k7gzmvvm80hckhv";
   };
 in stdenv.mkDerivation rec {
   pname = "jruby";
@@ -78,4 +78,10 @@ in stdenv.mkDerivation rec {
   postFixup = ''
     PATH=$out/bin:$PATH patchShebangs $out/bin
   '';
+
+  passthru = rec {
+    rubyEngine = "jruby";
+    gemPath = "lib/${rubyEngine}/gems/${rubyVersion.libDir}";
+    libPath = "lib/${rubyEngine}/${rubyVersion.libDir}";
+  };
 }
