@@ -54,7 +54,7 @@ in stdenv.mkDerivation rec {
     mvn -Dmaven.install.skip=true -Pdist --offline -Dmaven.repo.local=${maven-repository}
 
     mkdir ./dist
-    tar -xzvf ./maven/jruby-dist/target/jruby-dist-*-bin.tar.gz -C ./dist
+    tar -xzvf ./maven/jruby-dist/target/jruby-dist-*-bin.tar.gz --strip-components=1 -C ./dist
     cd ./dist
   '';
 
