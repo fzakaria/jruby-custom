@@ -58,6 +58,7 @@ in stdenv.mkDerivation rec {
     cd ./dist
   '';
 
+  # This is unmodified from  https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/interpreters/jruby/default.nix
   installPhase = ''
     mkdir -pv $out/docs
     mv * $out
