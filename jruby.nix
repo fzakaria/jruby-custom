@@ -3,10 +3,13 @@
 
 let
   # The version number here is whatever is reported by the RUBY_VERSION string
+  # If you modify the JRuby version to a different one, be sure to change
+  # this otherwise gems may not work.
   rubyVersion = callPackage
     "${nixpkgs-src}/pkgs/development/interpreters/ruby/ruby-version.nix" { } "2"
     "5" "7" "";
 
+  # Change the JRuby source to any commit or revision you need.
   jruby-src = fetchFromGitHub {
     owner = "headius";
     repo = "jruby";
@@ -14,6 +17,10 @@ let
     sha256 = "0pj6hq6yi4jr2q54kw72jmpr9jlrzj89dkkm48gnwppnlbpbzjb7";
   };
 
+  # Nixpkgs works by disallowing Internet access in order to enforce
+  # reproducibility. One way around that however is if your build is already
+  # binary reproducible, which you can toggle by specifying outputHash.
+  # We create a maven repository (~/.m2) for use in the build further down.
   maven-repository = stdenv.mkDerivation {
     name = "jruby-maven-repository";
     buildInputs = [ jdk8 maven ];
@@ -39,6 +46,9 @@ let
     outputHashMode = "recursive";
     outputHash = "1w4v0xfx3c5f1rn1gq28kk40j30fi3d9d5m15k7gzmvvm80hckhv";
   };
+  # The actual JRuby build now using the maven repository above!
+  # We separate the two so that during development, you can keep tweaking this
+  # without having to continously redownload the Maven JAR artifacts.
 in stdenv.mkDerivation rec {
   pname = "jruby";
 
